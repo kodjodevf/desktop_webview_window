@@ -98,4 +98,6 @@ abstract class Webview {
   Future<void> postWebMessageAsJson(String webMessage);
 
   Future<List<WebviewCookie>> getAllCookies();
+
+  void setOnNavigation(void Function(String)? onNavigation);
 }

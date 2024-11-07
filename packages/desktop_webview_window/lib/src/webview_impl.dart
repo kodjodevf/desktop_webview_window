@@ -27,6 +27,8 @@ class WebviewImpl extends Webview {
 
   OnUrlRequestCallback? _onUrlRequestCallback = null;
 
+  void Function(String)? _onNavigation;
+
   final Set<OnWebMessageReceivedCallback> _onWebMessageReceivedCallbacks = {};
 
   WebviewImpl(this.viewId, this.channel);
@@ -58,6 +60,9 @@ class WebviewImpl extends Webview {
   }
 
   void onNavigationStarted() {
+    Future.delayed(const Duration(milliseconds: 200), () async {
+      _onNavigation?.call(await evaluateJavaScript("location.href") ?? '');
+    });
     _isNavigating.value = true;
   }
 
@@ -295,5 +300,10 @@ class WebviewImpl extends Webview {
             ?.map((e) => WebviewCookie.fromJson(e.cast<String, dynamic>()))
             .toList() ??
         [];
+  }
+
+  @override
+  void setOnNavigation(void Function(String p1)? onNavigation) {
+    _onNavigation = onNavigation;
   }
 }

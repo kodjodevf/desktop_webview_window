@@ -64,6 +64,8 @@ class WebView {
 
   void setTriggerOnUrlRequestedEvent(const bool value);
 
+  bool shouldBlockUri(std::wstring uri);
+
  private:
   wil::unique_hwnd view_window_;
 
@@ -83,7 +85,7 @@ class WebView {
 
   std::wstring user_data_folder_;
 
-  bool triggerOnUrlRequestedEvent{true};
+  bool triggerOnUrlRequestedEvent{false};
 
   void OnWebviewControllerCreated();
 
