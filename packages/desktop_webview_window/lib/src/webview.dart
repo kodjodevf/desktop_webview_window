@@ -27,7 +27,9 @@ abstract class Webview {
   ///
   /// available: macOS (10.10+)
   void registerJavaScriptMessageHandler(
-      String name, JavaScriptMessageHandler handler);
+    String name,
+    JavaScriptMessageHandler handler,
+  );
 
   /// available: macOS
   void unregisterJavaScriptMessageHandler(String name);
@@ -83,7 +85,10 @@ abstract class Webview {
   void addOnWebMessageReceivedCallback(OnWebMessageReceivedCallback callback);
 
   void removeOnWebMessageReceivedCallback(
-      OnWebMessageReceivedCallback callback);
+    OnWebMessageReceivedCallback callback,
+  );
+
+  void removeAllWebMessageReceivedCallback();
 
   /// Close the web view window.
   void close();
@@ -98,6 +103,4 @@ abstract class Webview {
   Future<void> postWebMessageAsJson(String webMessage);
 
   Future<List<WebviewCookie>> getAllCookies();
-
-  void setOnNavigation(void Function(String)? onNavigation);
 }

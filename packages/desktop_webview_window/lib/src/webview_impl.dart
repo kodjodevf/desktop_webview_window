@@ -25,9 +25,7 @@ class WebviewImpl extends Webview {
 
   final ValueNotifier<bool> _isNavigating = ValueNotifier<bool>(false);
 
-  OnUrlRequestCallback? _onUrlRequestCallback = null;
-
-  void Function(String)? _onNavigation;
+  OnUrlRequestCallback? _onUrlRequestCallback;
 
   final Set<OnWebMessageReceivedCallback> _onWebMessageReceivedCallbacks = {};
 
@@ -60,9 +58,6 @@ class WebviewImpl extends Webview {
   }
 
   void onNavigationStarted() {
-    Future.delayed(const Duration(milliseconds: 200), () async {
-      _onNavigation?.call(await evaluateJavaScript("location.href") ?? '');
-    });
     _isNavigating.value = true;
   }
 
@@ -90,7 +85,7 @@ class WebviewImpl extends Webview {
   @override
   void registerJavaScriptMessageHandler(
       String name, JavaScriptMessageHandler handler) {
-    if (!Platform.isMacOS) {
+    if (!Platform.isMacOS && !Platform.isLinux) {
       return;
     }
     assert(!_closed);
@@ -100,7 +95,7 @@ class WebviewImpl extends Webview {
     assert(name.isNotEmpty);
     assert(!_javaScriptMessageHandlers.containsKey(name));
     _javaScriptMessageHandlers[name] = handler;
-    channel.invokeMethod("registerJavaScripInterface", {
+    channel.invokeMethod("registerJavaScriptInterface", {
       "viewId": viewId,
       "name": name,
     });
@@ -108,13 +103,13 @@ class WebviewImpl extends Webview {
 
   @override
   void unregisterJavaScriptMessageHandler(String name) {
-    if (!Platform.isMacOS) {
+    if (!Platform.isMacOS && !Platform.isLinux) {
       return;
     }
     if (_closed) {
       return;
     }
-    channel.invokeMethod("unregisterJavaScripInterface", {
+    channel.invokeMethod("unregisterJavaScriptInterface", {
       "viewId": viewId,
       "name": name,
     });
@@ -250,8 +245,14 @@ class WebviewImpl extends Webview {
 
   @override
   void removeOnWebMessageReceivedCallback(
-      OnWebMessageReceivedCallback callback) {
+    OnWebMessageReceivedCallback callback,
+  ) {
     _onWebMessageReceivedCallbacks.remove(callback);
+  }
+
+  @override
+  void removeAllWebMessageReceivedCallback() {
+    _onWebMessageReceivedCallbacks.clear();
   }
 
   @override
@@ -268,7 +269,7 @@ class WebviewImpl extends Webview {
       "viewId": viewId,
       "javaScriptString": javaScript,
     });
-    if (result is String || result == null) {
+    if (result == null || result is String) {
       return result;
     }
     return json.encode(result);
@@ -300,10 +301,5 @@ class WebviewImpl extends Webview {
             ?.map((e) => WebviewCookie.fromJson(e.cast<String, dynamic>()))
             .toList() ??
         [];
-  }
-
-  @override
-  void setOnNavigation(void Function(String p1)? onNavigation) {
-    _onNavigation = onNavigation;
   }
 }
