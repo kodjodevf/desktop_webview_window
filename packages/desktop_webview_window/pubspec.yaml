@@ -1,7 +1,7 @@
-name: desktop_webview_window
+name: desktop_webview_window_fork
 description: Show a webview window on your flutter desktop application.
 version: 0.3.0
-homepage: https://github.com/MixinNetwork/flutter-plugins/tree/main/packages/desktop_webview_window
+homepage: https://github.com/MixinNetwork/flutter-plugins/tree/main/packages/desktop_webview_window_fork
 
 environment:
   sdk: ">=3.5.0 <4.0.0"

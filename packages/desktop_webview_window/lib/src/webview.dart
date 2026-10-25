@@ -1,4 +1,4 @@
-import 'package:desktop_webview_window/src/cookie.dart';
+import 'package:desktop_webview_window_fork/src/cookie.dart';
 import 'package:flutter/foundation.dart';
 
 /// Handle custom message from JavaScript in your app.

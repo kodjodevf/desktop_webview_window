@@ -159,11 +159,11 @@ WebviewWindow::WebviewWindow(FlMethodChannel *method_channel, int64_t window_id,
                                                   const_cast<char **>(args));
     title_bar = fl_view_new(project);
 
-    g_autoptr(FlPluginRegistrar) desktop_webview_window_registrar =
+    g_autoptr(FlPluginRegistrar) desktop_webview_window_fork_registrar =
         fl_plugin_registry_get_registrar_for_plugin(
             FL_PLUGIN_REGISTRY(title_bar), "DesktopWebviewWindowPlugin");
     client_message_channel_plugin_register_with_registrar(
-        desktop_webview_window_registrar);
+        desktop_webview_window_fork_registrar);
 
     gtk_widget_set_size_request(GTK_WIDGET(title_bar), -1, title_bar_height);
     gtk_widget_set_vexpand(GTK_WIDGET(title_bar), FALSE);

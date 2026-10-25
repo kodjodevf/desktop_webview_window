@@ -80,7 +80,7 @@ fix linux build
 
 ## 0.0.2
 
-* rename project to desktop_webview_window
+* rename project to desktop_webview_window_fork
 
 ## 0.0.1
 
