@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.10)
-set(PROJECT_NAME "desktop_webview_window_fork")
+set(PROJECT_NAME "desktop_webview_window")
 project(${PROJECT_NAME} LANGUAGES CXX)
 
 # This value is used when generating builds using this plugin, so it must
 # not be changed
-set(PLUGIN_NAME "desktop_webview_window_fork_plugin")
+set(PLUGIN_NAME "desktop_webview_window_plugin")
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(WebKit IMPORTED_TARGET webkit2gtk-4.1) 
@@ -19,7 +19,7 @@ endif()
 
 
 add_library(${PLUGIN_NAME} SHARED
-        "desktop_webview_window_fork_plugin.cc"
+        "desktop_webview_window_plugin.cc"
         webview_window.cc
         webview_window.h
         message_channel_plugin.h
@@ -36,7 +36,7 @@ target_link_libraries(${PLUGIN_NAME} PRIVATE PkgConfig::GTK)
 target_link_libraries(${PLUGIN_NAME} PRIVATE PkgConfig::WebKit)
 
 # List of absolute paths to libraries that should be bundled with the plugin
-set(desktop_webview_window_fork_bundled_libraries
+set(desktop_webview_window_bundled_libraries
         ""
         PARENT_SCOPE
         )
